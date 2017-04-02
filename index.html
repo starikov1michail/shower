@@ -297,7 +297,7 @@
 	<section class="slide">
 		<h2>Фабричный метод.</h2>
 		<pre>
-			<code>abstract class BX24ApiHandlerCreator </code>
+			<code>abstract class BX24ApiHandler </code>
 			<code>  abstract private function HandlerFactory(): BX24Api;</code>
 			<code>  public function query($method, $args)</code>
 			<code>      $handler = $this->HandlerFactory();</code>
@@ -311,7 +311,7 @@
 		<h2>Фабричный метод.</h2>
 		<pre>
 			<code>class RemoteBX24ApiHandler </code>
-			<code>      	extends BX24ApiHandlerCreator </code>
+			<code>      	extends BX24ApiHandler </code>
 			<code>  private function HandlerFactory()</code>
 			<code>      if(empty(self::$_instance)) </code>
 			<code>          self::$_instance = new BX24Api();</code>
@@ -325,8 +325,8 @@
 		<h2>Фабричный метод.</h2>
 		<pre>
 			<code>class LocalBX24ApiHandler </code>
-			<code>          extends BX24ApiHandlerCreator </code>
-			<code>  private function EntityHandlerFactory()</code>
+			<code>          extends BX24ApiHandler </code>
+			<code>  private function HandlerFactory()</code>
 			<code>      if(empty(self::$_instance)) </code>
 			<code>          self::$_instance = new <mark class="important">LocalBX24ApiAdapter()</mark>;</code>
 			<code>      return self::$_instance;               </code>
@@ -595,7 +595,7 @@
 			<code>      $this->Impl = $data</code>
 			<code>  public function addCell($column, $row, $data)</code>
 			<code>      <span class="important">$this->Impl</span>->drawCell($column, $row, $data)</code>
-			<code>  public function addColumn($afterPos, $data)></code>
+			<code>  public function addColumn($afterPos, $data)</code>
 			<code>      <span class="important">$this->Impl</span>->addColumn($afterPos, $data)</code>
 		</pre>
 	</section>
@@ -607,8 +607,10 @@
 			<code>  public function drawCell($column, $row, $data)</code>
 			<code>  public function addColumn($afterPos, $data)</code>
 			<code>class HtmlReportViewImpl implements ReportViewImpl</code>
-			<code>  public function drawCell($column, $row, $data) <span class="comment">//Добавление ячейки</span></code>
-			<code>  public function addColumn($afterPos, $data) <span class="comment">//Добавление колонки</span></code>
+			<code>  public function drawCell($column, $row, $data) </code>
+			<code>      <span class="comment">//Добавление ячейки</span></code>
+			<code>  public function addColumn($afterPos, $data) </code>
+			<code>      <span class="comment">//Добавление колонки</span></code>
 		</pre>
 	</section>
 
@@ -627,7 +629,7 @@
 		<h2>Мост.</h2>
 		<pre>
 			<code>  $reportImpl = new HtmlReportViewImpl()</code>
-			<code>  $report = new PictureReportView($reportImpl);</code>
+			<code>  $report = new GroupedReportView($reportImpl);</code>
 			<code>  $report->addDivider()</code>
 		</pre>
 	</section>
